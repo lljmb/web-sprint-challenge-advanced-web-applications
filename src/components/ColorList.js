@@ -12,9 +12,6 @@ const initialColor = {
 const ColorList = ({ colors, updateColors }) => {
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
-  // add in useParams to grab id
-  const { id } = useParams();
-  const { push } = useHistory();
 
   const editColor = color => {
     setEditing(true);
@@ -27,6 +24,7 @@ const ColorList = ({ colors, updateColors }) => {
     axiosWithAuth()
     .put(`/colors/${colorToEdit.id}`, colorToEdit)
     .then(res => {
+      // map over the colors & return the edited color if the id already exists
       updateColors(colors.map(color => {
         if (color.id === colorToEdit.id){
           return colorToEdit;
@@ -43,8 +41,9 @@ const ColorList = ({ colors, updateColors }) => {
   // 2. Complete the deleteColor functions by making a delete request for deleting colors.
   const deleteColor = color => {
     axiosWithAuth()
-    .delete(`http://localhost:5000/api/colors/${color.id}`)
+    .delete(`/colors/${color.id}`)
     .then(res => {
+    // updateColors(res.data) returns cannot read property of undefined bc the id already exists. use filter to filter out the deleted color & return the updated array with the deleted color gone 
     updateColors(colors.filter(deletedColor  => {
       return deletedColor.id !== color.id;
     }));

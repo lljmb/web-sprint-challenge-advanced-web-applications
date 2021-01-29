@@ -16,7 +16,7 @@ const BubblePage = () => {
  const getData = () => {
    // making call using axios with auth
    axiosWithAuth()
-   .get('http://localhost:5000/api/colors', {
+   .get('/colors', {
      headers: {
        authorization: localStorage.getItem('token')
      }
