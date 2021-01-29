@@ -8,7 +8,7 @@ const Login = () => {
     username: '',
     password: ''
   })
-  const [errors, setErrors] = useState({error: 'Username or Password not valid.'})
+  const [errors, setErrors] = useState('');
   const { push } = useHistory();
 
   
@@ -28,7 +28,7 @@ const Login = () => {
     e.preventDefault();
     // 4. If either the username or password is not displaied display EXACTLY the following words: Username or Password not valid.
     if(user.username !== 'Lambda School' || user.password !== 'i<3Lambd4' ) {
-      return {errors}
+      return ( setErrors(errors) )
     } else {
       // 5. If the username / password is equal to Lambda School / i<3Lambd4, save that token to localStorage.
       // make a post request to retrieve a token from the api
@@ -45,6 +45,10 @@ const Login = () => {
     }
   }
 
+  if(errors){
+    return <h2>Username or password is not valid.</h2>
+  }
+
 
   return (
     <>
@@ -53,7 +57,7 @@ const Login = () => {
         <p>Build a login page here</p>
       </h1>
       {/* 1. Build a form containing a username and password field. */}
-      <form onSubmit={submit}>
+      <form onSubmit={submit || errors}>
       {/* 3. MAKE SURE THAT FORM INPUTS INCLUDE THE LABEL TEST "username" and "password" RESPECTIVELY. */}
         <label for='username' test-id='username'>Username</label>
         <input
