@@ -2,8 +2,6 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import BubblePage from "./BubblePage";
 
-import { fetchBubbles as mockFetchBubbles } from '../helpers/fetchBubbles';
-jest.mock('../helpers/fetchBubbles');
 
 const data = [
   { 
@@ -25,20 +23,20 @@ const data = [
 // 1. Setup test for basic rendering of component
 test("Renders BubblePage without errors", () => {
   // Finish this test
-  render(<BubblePage />)
+  render(<BubblePage colors={[]}/>)
 });
 
 // 2. Setup test for initial rendering of bubbles on loading
 test("Fetches data and renders the bubbles on mounting", async () => {
   // Finish this test
+  const {rerender} = render(<BubblePage colors={[]}/>)
   // arrange - bubble page renders & is loading with mock data
-  mockFetchBubbles.mockResolvedValue(data);
-  render(<BubblePage />);
+  rerender(<BubblePage colors={data} />);
 
   // act - find the text once the bubble page loads 
-  const bubbles = screen.findByText(/bubble/i)
+  const bubbles = await screen.findByTestId(/bubbles/i)
   // assert - the text should now exist in the document
-  expect(await bubbles).toBeInTheDocument()
+  expect(bubbles).toBeInTheDocument()
 });
 
 //Task List
